@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">2013mid</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="text1">2013mid</string>
+    <string name="choice">Choice</string>
+    <string name="input1">Input1</string>
+    <string name="input2">Input2</string>
+    <string name="save">Save</string>
+    <string name="b_ok">OK</string>
+    <string name="b_cancel">Cancel</string>
+    <string name="image">Image</string>
+    <string name="rb_in1">Input 1</string>
+    <string name="rb_in2">Input 1/2</string>
+    <string name="ch_save">Save Checked</string>
+    <string name="cancelled">Cancelled</string>
+
+</resources>
