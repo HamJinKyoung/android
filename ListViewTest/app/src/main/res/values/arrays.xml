@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <String-array name="fruits">
+        <item>Kiwi</item>
+        <item>Lemon</item>
+        <item>Melon</item>
+        <item>Orange</item>
+    </String-array>
+</resources>
