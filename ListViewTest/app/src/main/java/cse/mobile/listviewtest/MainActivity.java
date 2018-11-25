@@ -20,7 +20,9 @@ public class MainActivity extends AppCompatActivity {
 
         ListView lvFruits = findViewById(R.id.lvFruits);
 //        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, FRUITS);
-        final ArrayAdapter<CharSequence>adapter = ArrayAdapter.createFromResource(this, R.array.fruits, android.R.layout.simple_list_item_1);
+//        final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.fruits, android.R.layout.simple_list_item_1);
+//        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.my_textview, FRUITS);
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, R.layout.my_layout, R.id.textView2, FRUITS);
 
         lvFruits.setAdapter(adapter);
 
@@ -29,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //                Toast.makeText(getApplicationContext(),((TextView)view).getText(), Toast.LENGTH_SHORT).show();
 //                Toast.makeText(getApplication(),FRUITS[position], Toast.LENGTH_SHORT).show();
-//                Toast.makeText(getApplication(),adapter.getItem(position),Toast.LENGTH_SHORT).show();
-                String[] saFruits = getResources().getStringArray(R.array.fruits);
-                Toast.makeText(getApplication(),FRUITS[position], Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplication(),adapter.getItem(position),Toast.LENGTH_SHORT).show();
+//                String[] saFruits = getResources().getStringArray(R.array.fruits);
+//                Toast.makeText(getApplication(),saFruits[position], Toast.LENGTH_SHORT).show();
             }
 
         });
