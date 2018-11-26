@@ -3,6 +3,7 @@ package cse.mobile.listviewupdatetest;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,33 +17,29 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
-    ArrayList<String> mALItems;
+    ArrayList<String> mALItems = new ArrayList<String>();
     ArrayAdapter<String> mAdapter;
+    ListView lvitems;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final ArrayList<String> alitems = new ArrayList<String>();
-        mALItems =new ArrayList<String>();
-        ListView lvitems = findViewById(R.id.lvItems);
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, alitems);
-
-        lvitems.setAdapter( mAdapter);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mALItems);
+        lvitems = findViewById(R.id.lvItems);
+        lvitems.setAdapter(mAdapter);
 
         final EditText etAdd = findViewById(R.id.etAdd);
         Button btAdd = findViewById(R.id.btAdd);
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-
-
             public void onClick(View v) {
-                alitems.add(etAdd.getText().toString());
+                mALItems.add(etAdd.getText().toString());
                 mAdapter.notifyDataSetChanged();
                 etAdd.setText("");
             }
         });
+
         lvitems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -55,25 +52,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater =getMenuInflater();
-        inflater.inflate(R.menu.cmenu_activity_main_lvitems,menu);
+        MenuInflater inflater=getMenuInflater();
+        inflater.inflate(R.menu.mymenu,menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem items) {
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info=(AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
 
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)items.getMenuInfo();
-
-        switch (items.getItemId())
+        switch (item.getItemId())
         {
-            case R.id.cmenuDelete:
+            case R.id.delete_list:
                 mALItems.remove(info.position);
                 mAdapter.notifyDataSetChanged();
-                return  true;
-
-            default:
-                return super.onContextItemSelected(items);
+                break;
         }
+        return super.onContextItemSelected(item);
 
     }
 }
