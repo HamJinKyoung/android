@@ -17,59 +17,62 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    ArrayList<String> alItems = new ArrayList<>();
-
+    ArrayList<String> mALItems;
+    ArrayAdapter<String> mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView lvItems = findViewById(R.id.lv);
-        final ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alItems);
-        lvItems.setAdapter(adapter);
+        final ArrayList<String> alitems = new ArrayList<String>();
+        mALItems =new ArrayList<String>();
+        ListView lvitems = findViewById(R.id.lvItems);
+        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, alitems);
 
-        final EditText etAdd = findViewById(R.id.et);
-        Button btAdd = findViewById(R.id.bt);
+        lvitems.setAdapter( mAdapter);
 
+        final EditText etAdd = findViewById(R.id.etAdd);
+        Button btAdd = findViewById(R.id.btAdd);
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
+
+
             public void onClick(View v) {
-                alItems.add(etAdd.getText().toString());
-                adapter.notifyDataSetChanged();
+                alitems.add(etAdd.getText().toString());
+                mAdapter.notifyDataSetChanged();
                 etAdd.setText("");
             }
         });
-
-        lvItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        lvitems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Toast.makeText(getApplicationContext(),alItems.get(position),Toast.LENGTH_SHORT).show();
-                Toast.makeText(getApplicationContext(),adapter.getItem(position),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), mAdapter.getItem(position), Toast.LENGTH_SHORT).show();
             }
         });
-
-        registerForContextMenu(lvItems);
-
+        registerForContextMenu(lvitems);
     }
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.cmenu_activity_main_lvitems, menu);
+        MenuInflater inflater =getMenuInflater();
+        inflater.inflate(R.menu.cmenu_activity_main_lvitems,menu);
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item;
+    public boolean onContextItemSelected(MenuItem items) {
 
-        switch (item.getItemId()) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)items.getMenuInfo();
+
+        switch (items.getItemId())
+        {
             case R.id.cmenuDelete:
-                alItems.remove(info.position);
-                adapter.notifyDataSetChanged();
-                return true;
+                mALItems.remove(info.position);
+                mAdapter.notifyDataSetChanged();
+                return  true;
+
             default:
-                return super.onContextItemSelected(item);
+                return super.onContextItemSelected(items);
         }
 
     }
