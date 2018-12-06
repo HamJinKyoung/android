@@ -37,5 +37,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        if(savedInstanceState != null) {
+            mCount = savedInstanceState.getInt("mCount");
+        }
+        tvOrder.setText("Total amount of order: " + mCount);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("mCount", mCount);
     }
 }
