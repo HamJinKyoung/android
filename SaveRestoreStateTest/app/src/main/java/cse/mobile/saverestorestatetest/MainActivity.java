@@ -1,15 +1,11 @@
 package cse.mobile.saverestorestatetest;
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-
 public class MainActivity extends AppCompatActivity {
-
     int mCount = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,3 +45,5 @@ public class MainActivity extends AppCompatActivity {
         outState.putInt("mCount", mCount);
     }
 }
+
+
