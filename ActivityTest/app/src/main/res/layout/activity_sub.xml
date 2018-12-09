@@ -9,10 +9,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sub Activity" />
-    <Button
-        android:id="@+id/btSubExit"
-        android:layout_width="wrap_content"
+    <EditText
+        android:id="@+id/etSubInput"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Exit"/>
+        android:ems="10"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/btSubOK"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"/>
+        <Button
+            android:id="@+id/btSubCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"/>
+    </LinearLayout>
 
 </LinearLayout>
+
