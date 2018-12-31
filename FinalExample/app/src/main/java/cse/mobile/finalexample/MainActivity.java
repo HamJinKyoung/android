@@ -36,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
     ListView lvMemo;
 
     static final String TAG = "AsyncTaskUITest";
-    boolean mRunning = false;
+
+//    boolean mRunning = false;
+
+    UploadDialogFragment uploadDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,25 +107,27 @@ public class MainActivity extends AppCompatActivity {
                 mAdapter.notifyDataSetChanged();
                 break;
             case R.id.upload:
-
+                uploadDialogFragment = new UploadDialogFragment();
+                uploadDialogFragment.show(getSupportFragmentManager(),"");
+                new UploadMemoTask(uploadDialogFragment,100).execute();
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mRunning = true;
-        UploadMemoTask tkUploader = new UploadMemoTask(,100);
-        tkUploader.execute();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        mRunning = false;
-    }
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        UploadMemoTask uploadMemoTask = new UploadMemoTask(uploadDialogFragment,100);
+//        uploadMemoTask.execute();
+//        mRunning = true;
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        mRunning = false;
+//    }
 
     public static class UploadDialogFragment extends DialogFragment {
         @NonNull
@@ -177,14 +182,14 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Double... values) {
-//            super.onProgressUpdate(values);
+            super.onProgressUpdate(values);
             mProgressBar.incrementProgressBy(values[0].intValue());
             Log.i(TAG,"getProgress(): " + mProgressBar.getProgress());
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
+            super.onPostExecute(aVoid);
             mdialogFragment.dismiss();
             Toast.makeText(getApplicationContext(),mFileSize + "Kbytes File upload completed.", Toast.LENGTH_SHORT).show();
         }
