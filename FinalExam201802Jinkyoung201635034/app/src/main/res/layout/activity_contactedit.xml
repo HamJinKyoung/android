@@ -18,11 +18,13 @@
         <Button
             android:id="@+id/btEdit"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Edit"/>
         <Button
             android:id="@+id/btCancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="Cancel"/>
 
     </LinearLayout>
 
