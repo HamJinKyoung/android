@@ -9,13 +9,15 @@
         android:id="@+id/tvShareContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:text="Sharing Contact..."/>
 
     <ProgressBar
         android:id="@+id/pbShareContact"
         style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="15dp"
         android:layout_weight="1" />
 
 </LinearLayout>

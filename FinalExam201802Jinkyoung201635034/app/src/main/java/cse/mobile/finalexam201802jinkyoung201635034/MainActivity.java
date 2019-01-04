@@ -1,11 +1,15 @@
 package cse.mobile.finalexam201802jinkyoung201635034;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -20,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -87,6 +92,8 @@ public class MainActivity extends AppCompatActivity {
         menuInflater.inflate(R.menu.cmenu_main_lvcontacts, menu);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
@@ -99,7 +106,6 @@ public class MainActivity extends AppCompatActivity {
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getApplicationContext(),"YES",Toast.LENGTH_SHORT).show();
                                 list.remove(info.position);
                                 adapter.notifyDataSetChanged();
                             }
@@ -109,27 +115,77 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.share:
                 ShareDialogFragment shareDialogFragment = new ShareDialogFragment();
-//                shareDialogFragment.show();
-                getSupportFragmentManager().executePendingTransactions();
-                shareDialogFragment.getDialog().findViewById(R.id.pbShareContact);
+                shareDialogFragment.show(getSupportFragmentManager(), "shareDialogFragment");
                 break;
         }
         return super.onContextItemSelected(item);
     }
 
     public static class ShareDialogFragment extends DialogFragment {
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @NonNull
         @Override
         public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
             AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
             ad.setTitle("Share Contact")
-                    .setMessage("Sharing Contact...");
-//                    .setView(R.layout.dialog_sharecontactprogress);
+                    .setView(View.inflate(getActivity(), R.layout.dialog_sharecontactprogress, null));
 
-            return super.onCreateDialog(savedInstanceState);
+            return ad.create();
         }
     }
 
+    private class ShareFileTask extends AsyncTask<Double, Double, Void> {
+        DialogFragment mshareProgressDialog;
+        int mFileSize;
+        ProgressBar mProgressBar;
 
+        public ShareFileTask(DialogFragment shareProgressDialog, int fileSize) {
+            mshareProgressDialog = shareProgressDialog;
+            mFileSize = fileSize;
+        }
+
+        @Override
+        protected Void doInBackground(Double... params) {
+            double speed = params[0];
+            int remainder = mFileSize;
+
+            while(remainder > 0) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                publishProgress(speed);
+                remainder -= speed;
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+//            super.onPreExecute();
+            mshareProgressDialog.setCancelable(false);
+            mshareProgressDialog.show(getSupportFragmentManager(), "ShareFileProgressDialogFragment");
+            getSupportFragmentManager().executePendingTransactions();
+
+            mProgressBar = mshareProgressDialog.getDialog().findViewById(R.id.pbShareContact);
+            mProgressBar.setMax(mFileSize);
+            mProgressBar.setProgress(0);
+        }
+
+        @Override
+        protected void onProgressUpdate(Double... values) {
+//            super.onProgressUpdate(values);
+            mProgressBar.incrementProgressBy(values[0].intValue());
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+//            super.onPostExecute(aVoid);
+            mshareProgressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), mFileSize + "Kbytes File shared completed.", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
