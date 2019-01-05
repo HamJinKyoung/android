@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     static ArrayAdapter<String> adapter;
     ListView lv;
 
+    boolean mRunning = false;
+    ShareDialogFragment shareDialogFragment = new ShareDialogFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,8 +117,10 @@ public class MainActivity extends AppCompatActivity {
                         .show();
                 break;
             case R.id.share:
-                ShareDialogFragment shareDialogFragment = new ShareDialogFragment();
+//                ShareDialogFragment shareDialogFragment = new ShareDialogFragment();
+                ShareFileTask share = new ShareFileTask(shareDialogFragment,100);
                 shareDialogFragment.show(getSupportFragmentManager(), "shareDialogFragment");
+                share.execute();
                 break;
         }
         return super.onContextItemSelected(item);
@@ -134,6 +139,21 @@ public class MainActivity extends AppCompatActivity {
             return ad.create();
         }
     }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+////        ShareDialogFragment shareDialogFragment = new ShareDialogFragment();
+//        ShareFileTask share = new ShareFileTask(shareDialogFragment,100);
+//        mRunning = true;
+//        share.execute();
+//    }
+//
+//    @Override
+//    protected void onStop() {
+//        super.onStop();
+//        mRunning = false;
+//    }
 
     private class ShareFileTask extends AsyncTask<Double, Double, Void> {
         DialogFragment mshareProgressDialog;
